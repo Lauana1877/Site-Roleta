@@ -5,56 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Roleta - Sorteio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        .hidden { display: none; }
-        .text-overlay { text-align: center; margin-top: 50px; }
-        .text-overlay button { padding: 10px 20px; font-size: 16px; }
-        .error-message { color: red; text-align: center; display: none; }
-        #loading-bar { width: 0; height: 2px; background-color: #0a3c90; margin-top: 10px; transition: width 3s ease-in-out; }
-        #depoisdoform { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 10px solid #0a3c90; border-radius: 10px; z-index: 1000; }
-        #depoisdoform h2 { font-family: 'Montserrat', sans-serif; font-weight: 900; color: #0a3c90; font-size: 20px; padding-bottom: 10px; }
-        #depoisdoform p { font-family: 'Montserrat', sans-serif; font-weight: 700; line-height: 1.1; color: #0a3c90; font-size: 15px; }
-        @media (max-width: 600px) { #depoisdoform { width: 80%; padding: 15px; border-width: 5px; } #depoisdoform h2 { font-size: 18px; } #depoisdoform p { font-size: 14px; } }
-        body { background-image: url('https://i.postimg.cc/7h6JKd06/Ativo-1-8.png'); background-size: cover; background-position: center; background-repeat: no-repeat; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        h1 { color: #0a3c90; font-size: 19px; font-family: 'Montserrat', sans-serif; font-weight: 800; margin-bottom: 8px; padding: -1px; }
-        h2 { color: #1062eb; font-size: 13px; font-family: 'montserrat', sans-serif; font-weight: 600; }
-        .fade-out { opacity: 0; transition: opacity 0.5s ease-out; }
-        .custom-container { background-color: white; border: 2px solid #0a3c90; border-radius: 20px; padding: 20px; width: 300px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        .custom-content { text-align: center; }
-        .custom-parabens { font-size: 40px; font-weight: 700 bold; margin-bottom: 5px; }
-        .custom-title { font-size: 18px; font-weight: 900 bold; margin-bottom: 20px; }
-        .custom-subtitle { font-size: 15px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: 700; color: #1e1e1e; margin-top: -10px; margin-bottom: 10px; margin-top: -15px; }
-        .custom-button { background: linear-gradient(90deg, #1062eb, #0a3c90); color: white; border: none; border-radius: 5px; padding: 10px 80px 10px 90px; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .custom-button:hover { background: linear-gradient(90deg, #0a3c90, #1062eb); }
-        .custom-image { width: 300px; display: block; margin: 0 auto 20px; }
-        .form-container { background-color: white; border: 2px solid #0a3c90; border-radius: 20px; padding: 20px; width: 300px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        .form-container input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #0a3c90; border-radius: 5px; box-sizing: border-box; }
-        .form-container button { width: 100%; padding: 10px; border: none; border-radius: 5px; background: linear-gradient(90deg, #0a3c90, #1062eb); color: white; font-size: 16px; cursor: pointer; }
-        .form-container button:hover { background: linear-gradient(90deg, #1062eb, #0a3c90); }
-        @media (max-width: 500px) { .form-container { width: 80%; padding: 20px; margin: 0 auto; } .form-container input, .form-container button { font-size: 14px; } .form-container button { padding: 8px; } }
-        .custom-text { font-size: 24px; color: #333; text-align: center; margin-top: 20px; }
-        .roulette { font-family: "Work Sans", sans-serif; display: block; position: absolute; width: 400px; height: 400px; top: 50%; left: 50%; margin-top: -200px; margin-left: -200px; }
-        .roulette .shadow { display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.25) inset; }
-        .roulette .markers { display: block; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; overflow: hidden; border-radius: 100%; }
-        .roulette .markers .triangle { width: 0; height: 0; border-style: solid; border-width: 1em 0 1em 1.6em; border-color: transparent transparent transparent #007bff; position: absolute; border-left-color: #ffffff; top: 50%; left: -1px; margin-top: -1em; filter: drop-shadow(0 0.25em 0 rgba(0, 0, 0, 0.25)); }
-        .roulette .spinner { display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; overflow: hidden; transform: rotateZ(0deg); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-        .roulette .spinner .item { position: absolute; width: 0; height: 0; top: -200px; left: 200px; transform-origin: 0% 400px; border: 0 solid transparent; }
-        .roulette .spinner .item .label { display: block; position: absolute; color: #FFF; font-weight: 800; top: 0; left: 0; white-space: nowrap; transform-origin: 0 0; font-size: 0.8em; }
-        .roulette .spinner .item .label i, .roulette .spinner .item .label .text { display: inline-block; vertical-align: middle; line-height: 1; font-size: 1em; text-indent: 0; }
-        .roulette .spinner .item .label i { margin-right: 0.1em; }
-        .roulette .button { width: 10em; height: 10em; line-height: 10em; top: 50%; left: 50%; margin-left: -5em; margin-top: -5em; font-weight: 800; z-index: 998; position: absolute; background: #FFF; border: none; border-radius: 100%; color: #0a3c90; outline: none; cursor: pointer; -webkit-user-select: none; user-select: none; box-shadow: 0 0.4em 0 #1062eb; text-align: center; transition: transform 0.15s; transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        .roulette .button:hover { color: inherit; }
-        .roulette.busy .button { transform: scale(0.9); box-shadow: 0 0.15em 0 #1062eb; color: #1062eb; cursor: default; }
-        .roulette .spinner .item[data-type=quiz] .label { font-size: 1.em; }
-        .roulette .spinner .item[data-type=question] .label { font-size: 1.em; }
-        .roulette .spinner .item[data-type=replay] .label .text { font-size: 1.em; white-space: initial; width: 1em; text-align: center; line-height: 1.; }
-        .roulette .spinner .item[data-type=replay] .label i { font-size: 1.em; }
-        .roulette .spinner .item[data-type=time] .label i { font-size: 1.em; }
-    </style>
 </head>
 <body>
     <div id="container" class="custom-container">
@@ -103,271 +56,320 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js'></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const cpfInput = document.getElementById("cpf");
-            const whatsappInput = document.getElementById("whatsapp");
-            const errorMessage = document.getElementById("error-message");
-            const form = document.getElementById("myForm");
-            const submitBtn = document.getElementById("submitBtn");
+    <script src="script.js"></script>
+</body>
+<style>
+    .hidden { display: none; }
+.text-overlay { text-align: center; margin-top: 50px; }
+.text-overlay button { padding: 10px 20px; font-size: 16px; }
+.error-message { color: red; text-align: center; display: none; }
+#loading-bar { width: 0; height: 2px; background-color: #0a3c90; margin-top: 10px; transition: width 3s ease-in-out; }
+#depoisdoform { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 10px solid #0a3c90; border-radius: 10px; z-index: 1000; }
+#depoisdoform h2 { font-family: 'Montserrat', sans-serif; font-weight: 900; color: #0a3c90; font-size: 20px; padding-bottom: 10px; }
+#depoisdoform p { font-family: 'Montserrat', sans-serif; font-weight: 700; line-height: 1.1; color: #0a3c90; font-size: 15px; }
+@media (max-width: 600px) { #depoisdoform { width: 80%; padding: 15px; border-width: 5px; } #depoisdoform h2 { font-size: 18px; } #depoisdoform p { font-size: 14px; } }
+body { background-image: url('https://i.postimg.cc/7h6JKd06/Ativo-1-8.png'); background-size: cover; background-position: center; background-repeat: no-repeat; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+h1 { color: #0a3c90; font-size: 19px; font-family: 'Montserrat', sans-serif; font-weight: 800; margin-bottom: 8px; padding: -1px; }
+h2 { color: #1062eb; font-size: 13px; font-family: 'montserrat', sans-serif; font-weight: 600; }
+.fade-out { opacity: 0; transition: opacity 0.5s ease-out; }
+.custom-container { background-color: white; border: 2px solid #0a3c90; border-radius: 20px; padding: 20px; width: 300px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+.custom-content { text-align: center; }
+.custom-parabens { font-size: 40px; font-weight: 700 bold; margin-bottom: 5px; }
+.custom-title { font-size: 18px; font-weight: 900 bold; margin-bottom: 20px; }
+.custom-subtitle { font-size: 15px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: 700; color: #1e1e1e; margin-top: -10px; margin-bottom: 10px; margin-top: -15px; }
+.custom-button { background: linear-gradient(90deg, #1062eb, #0a3c90); color: white; border: none; border-radius: 5px; padding: 10px 80px 10px 90px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.custom-button:hover { background: linear-gradient(90deg, #0a3c90, #1062eb); }
+.custom-image { width: 300px; display: block; margin: 0 auto 20px; }
+.form-container { background-color: white; border: 2px solid #0a3c90; border-radius: 20px; padding: 20px; width: 300px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+.form-container input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #0a3c90; border-radius: 5px; box-sizing: border-box; }
+.form-container button { width: 100%; padding: 10px; border: none; border-radius: 5px; background: linear-gradient(90deg, #0a3c90, #1062eb); color: white; font-size: 16px; cursor: pointer; }
+.form-container button:hover { background: linear-gradient(90deg, #1062eb, #0a3c90); }
+@media (max-width: 500px) { .form-container { width: 80%; padding: 20px; margin: 0 auto; } .form-container input, .form-container button { font-size: 14px; } .form-container button { padding: 8px; } }
+.custom-text { font-size: 24px; color: #333; text-align: center; margin-top: 20px; }
+.roulette { font-family: "Work Sans", sans-serif; display: block; position: absolute; width: 400px; height: 400px; top: 50%; left: 50%; margin-top: -200px; margin-left: -200px; }
+.roulette .shadow { display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.25) inset; }
+.roulette .markers { display: block; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; overflow: hidden; border-radius: 100%; }
+.roulette .markers .triangle { width: 0; height: 0; border-style: solid; border-width: 1em 0 1em 1.6em; border-color: transparent transparent transparent #007bff; position: absolute; border-left-color: #ffffff; top: 50%; left: -1px; margin-top: -1em; filter: drop-shadow(0 0.25em 0 rgba(0, 0, 0, 0.25)); }
+.roulette .spinner { display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; overflow: hidden; transform: rotateZ(0deg); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.roulette .spinner .item { position: absolute; width: 0; height: 0; top: -200px; left: 200px; transform-origin: 0% 400px; border: 0 solid transparent; }
+.roulette .spinner .item .label { display: block; position: absolute; color: #FFF; font-weight: 800; top: 0; left: 0; white-space: nowrap; transform-origin: 0 0; font-size: 0.8em; }
+.roulette .spinner .item .label i, .roulette .spinner .item .label .text { display: inline-block; vertical-align: middle; line-height: 1; font-size: 1em; text-indent: 0; }
+.roulette .spinner .item .label i { margin-right: 0.1em; }
+.roulette .button { width: 10em; height: 10em; line-height: 10em; top: 50%; left: 50%; margin-left: -5em; margin-top: -5em; font-weight: 800; z-index: 998; position: absolute; background: #FFF; border: none; border-radius: 100%; color: #0a3c90; outline: none; cursor: pointer; -webkit-user-select: none; user-select: none; box-shadow: 0 0.4em 0 #1062eb; text-align: center; transition: transform 0.15s; transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.roulette .button:hover { color: inherit; }
+.roulette.busy .button { transform: scale(0.9); box-shadow: 0 0.15em 0 #1062eb; color: #1062eb; cursor: default; }
+.roulette .spinner .item[data-type=quiz] .label { font-size: 1.em; }
+.roulette .spinner .item[data-type=question] .label { font-size: 1.em; }
+.roulette .spinner .item[data-type=replay] .label .text { font-size: 1.em; white-space: initial; width: 1em; text-align: center; line-height: 1.; }
+.roulette .spinner .item[data-type=replay] .label i { font-size: 1.em; }
+.roulette .spinner .item[data-type=time] .label i { font-size: 1.em; }
 
-            cpfInput.addEventListener("input", function() {
-                let cpf = cpfInput.value.replace(/\D/g, '');
-                cpf = cpf.slice(0, 11);
-                cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2');
-                cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-                cpf = cpf.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-                cpfInput.value = cpf;
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const cpfInput = document.getElementById("cpf");
+    const whatsappInput = document.getElementById("whatsapp");
+    const errorMessage = document.getElementById("error-message");
+    const form = document.getElementById("myForm");
+    const submitBtn = document.getElementById("submitBtn");
 
-                checkValidity();
-            });
+    cpfInput.addEventListener("input", function() {
+        let cpf = cpfInput.value.replace(/\D/g, '');
+        cpf = cpf.slice(0, 11);
+        cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2');
+        cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+        cpf = cpf.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+        cpfInput.value = cpf;
 
-            whatsappInput.addEventListener("input", function() {
-                checkValidity();
-            });
+        checkValidity();
+    });
 
-            function checkValidity() {
-                const cpfValid = cpfInput.value.replace(/\D/g, '').length === 11;
-                const whatsappValid = whatsappInput.value.replace(/\D/g, '').length === 11;
+    whatsappInput.addEventListener("input", function() {
+        checkValidity();
+    });
 
-                submitBtn.disabled = !(cpfValid && whatsappValid);
+    function checkValidity() {
+        const cpfValid = cpfInput.value.replace(/\D/g, '').length === 11;
+        const whatsappValid = whatsappInput.value.replace(/\D/g, '').length === 11;
+
+        submitBtn.disabled = !(cpfValid && whatsappValid);
+    }
+
+    form.addEventListener("submit", function(event) {
+        if (!form.checkValidity()) {
+            errorMessage.style.display = "block";
+            event.preventDefault();
+        } else {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    const startButton = document.getElementById("start-button");
+    startButton.addEventListener("click", function() {
+        const container = document.getElementById("container");
+        container.classList.add("fade-out");
+
+        setTimeout(function() {
+            container.classList.add("hidden");
+            document.getElementById("roulette-container").classList.remove("hidden");
+        }, 500);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("myForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const nomeInput = document.getElementById("nome");
+    const whatsappInput = document.getElementById("whatsapp");
+    const cpfInput = document.getElementById("cpf");
+
+    form.addEventListener("input", function() {
+        if (nomeInput.validity.valid && whatsappInput.validity.valid && cpfInput.validity.valid) {
+            submitBtn.removeAttribute("disabled");
+        } else {
+            submitBtn.setAttribute("disabled", "disabled");
+        }
+    });
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var nome = nomeInput.value;
+        var cpf = cpfInput.value;
+        var whatsapp = whatsappInput.value;
+
+        var webhookUrl = 'https://webhook.empreendimentosonfire.win/webhook/roletaleads';
+
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome: nome, cpf: cpf, whatsapp: whatsapp })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(`Erro ao enviar os dados. Status: ${response.status}`);
             }
+        })
+        .then(data => {
+            console.log("Resposta do servidor:", data);
 
-            form.addEventListener("submit", function(event) {
-                if (!form.checkValidity()) {
-                    errorMessage.style.display = "block";
-                    event.preventDefault();
-                } else {
-                    errorMessage.style.display = "none";
-                }
-            });
+            document.getElementById('texto-personalizado').style.display = 'none';
+            var depoisDoForm = document.getElementById('depoisdoform');
+            depoisDoForm.style.display = 'block';
 
-            const startButton = document.getElementById("start-button");
-            startButton.addEventListener("click", function() {
-                const container = document.getElementById("container");
-                container.classList.add("fade-out");
+            var loadingBar = document.getElementById('loading-bar');
+            setTimeout(function() {
+                loadingBar.style.width = '100%';
 
                 setTimeout(function() {
-                    container.classList.add("hidden");
-                    document.getElementById("roulette-container").classList.remove("hidden");
-                }, 500);
-            });
+                    window.parent.postMessage('loadingComplete', '*');
+                }, 3000);
+
+            }, 100);
+
+        })
+        .catch(error => {
+            console.error('Erro capturado:', error);
+            alert(`Falha ao enviar os dados: ${error.message}`);
         });
+    });
+});
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById("myForm");
-            const submitBtn = document.getElementById("submitBtn");
-            const nomeInput = document.getElementById("nome");
-            const whatsappInput = document.getElementById("whatsapp");
-            const cpfInput = document.getElementById("cpf");
-
-            form.addEventListener("input", function() {
-                if (nomeInput.validity.valid && whatsappInput.validity.valid && cpfInput.validity.valid) {
-                    submitBtn.removeAttribute("disabled");
-                } else {
-                    submitBtn.setAttribute("disabled", "disabled");
-                }
-            });
-
-            form.addEventListener("submit", function(event) {
-                event.preventDefault();
-
-                var nome = nomeInput.value;
-                var cpf = cpfInput.value;
-                var whatsapp = whatsappInput.value;
-
-                var webhookUrl = 'https://webhook.empreendimentosonfire.win/webhook/roletaleads';
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nome: nome, cpf: cpf, whatsapp: whatsapp })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error(`Erro ao enviar os dados. Status: ${response.status}`);
-                    }
-                })
-                .then(data => {
-                    console.log("Resposta do servidor:", data);
-
-                    document.getElementById('texto-personalizado').style.display = 'none';
-                    var depoisDoForm = document.getElementById('depoisdoform');
-                    depoisDoForm.style.display = 'block';
-
-                    var loadingBar = document.getElementById('loading-bar');
-                    setTimeout(function() {
-                        loadingBar.style.width = '100%';
-
-                        setTimeout(function() {
-                            window.parent.postMessage('loadingComplete', '*');
-                        }, 3000);
-
-                    }, 100);
-
-                })
-                .catch(error => {
-                    console.error('Erro capturado:', error);
-                    alert(`Falha ao enviar os dados: ${error.message}`);
-                });
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var input = document.getElementById('whatsapp');
-            input.addEventListener('input', function() {
-                var value = input.value.replace(/\D/g, '');
-                if (value.length > 2) {
-                    value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
-                }
-                if (value.length > 6) {
-                    if (value.length <= 10) {
-                        value = value.substring(0, 9) + '-' + value.substring(9);
-                    } else if (value.length <= 11) {
-                        value = value.substring(0, 10) + '-' + value.substring(10);
-                    }
-                }
-                input.value = value;
-            });
-        });
-
-        var data = [
-            { id: '', type: 'allin', color: '#1062eb', text: 'Perdeu' },
-            { id: '', type: 'quiz', color: '#0a3c90', text: '2 Títulos' },
-            { id: '', type: 'allin', color: '#1062eb', text: 'R$2.250' },
-            { id: '', type: 'allin', color: '#0a3c90', text: 'R$1.000' },
-            { id: '', color: '#1062eb', text: 'R$95' },
-            { id: '', color: '#0a3c90', text: 'R$5.000' },
-            { id: '', color: '#1062eb', text: 'R$500' },
-            { id: '', type: 'allin', color: '#0a3c90', text: 'R$3.000' },
-            { id: '', type: 'question', color: '#1062eb', text: 'R$200' },
-            { id: '', color: '#0a3c90', text: 'R$50' },
-            { id: '', color: '#1062eb', text: 'R$100' },
-            { id: '', type: 'allin', color: '#0a3c90', text: 'R$3.000' }
-        ];
-
-        var RouletteWheel = function(el, items) {
-            this.$el = $(el);
-            this.items = items || [];
-            this._bis = false;
-            this._angle = 0;
-            this._index = 0;
-            this.options = { angleOffset: -90 };
+document.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('whatsapp');
+    input.addEventListener('input', function() {
+        var value = input.value.replace(/\D/g, '');
+        if (value.length > 2) {
+            value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
         }
-
-        _.extend(RouletteWheel.prototype, Backbone.Events);
-
-        RouletteWheel.prototype.render = function() {
-            var $spinner = $(this.$el.find('.spinner'));
-            var D = this.$el.width();
-            var R = D * 0.5;
-            var count = this.items.length;
-            var delta = 360 / count;
-
-            for (var i = 0; i < count; i++) {
-                var item = this.items[i];
-                var color = item.color;
-                var text = item.text;
-
-                var html = [];
-                html.push('<div class="item" data-index="' + i + '" data-type="' + item.type + '">');
-                html.push('<span class="label"><span class="text">' + text + '</span></span>');
-                html.push('</div>');
-
-                var $item = $(html.join(''));
-
-                var borderTopWidth = D + D * 0.0025;
-                var deltaInRadians = delta * Math.PI / 180;
-                var borderRightWidth = D / (1 / Math.tan(deltaInRadians));
-
-                var r = delta * (count - i) + this.options.angleOffset - delta * 0.5;
-
-                $item.css({
-                    borderTopWidth: borderTopWidth,
-                    borderRightWidth: borderRightWidth,
-                    transform: 'scale(2) rotate(' + r + 'deg)',
-                    borderTopColor: color
-                });
-
-                var textHeight = parseInt((2 * Math.PI * R / count) * 0.5);
-
-                $item.find('.label').css({
-                    transform: 'translateY(' + (D * -0.25) + 'px) translateX(' + (textHeight * 1.03) + 'px) rotateZ(' + (90 + delta * 0.5) + 'deg)',
-                    height: textHeight + 'px',
-                    lineHeight: textHeight + 'px',
-                    textIndent: (R * 0.1) + 'px'
-                });
-
-                $spinner.append($item);
+        if (value.length > 6) {
+            if (value.length <= 10) {
+                value = value.substring(0, 9) + '-' + value.substring(9);
+            } else if (value.length <= 11) {
+                value = value.substring(0, 10) + '-' + value.substring(10);
             }
-
-            $spinner.css({ fontSize: parseInt(R * 0.06) + 'px' });
         }
+        input.value = value;
+    });
+});
 
-        RouletteWheel.prototype.bindEvents = function() {
-            this.$el.find('.button').on('click', $.proxy(this.spin, this));
-        }
+var data = [
+    { id: '', type: 'allin', color: '#1062eb', text: 'Perdeu' },
+    { id: '', type: 'quiz', color: '#0a3c90', text: '2 Títulos' },
+    { id: '', type: 'allin', color: '#1062eb', text: 'R$2.250' },
+    { id: '', type: 'allin', color: '#0a3c90', text: 'R$1.000' },
+    { id: '', color: '#1062eb', text: 'R$95' },
+    { id: '', color: '#0a3c90', text: 'R$5.000' },
+    { id: '', color: '#1062eb', text: 'R$500' },
+    { id: '', type: 'allin', color: '#0a3c90', text: 'R$3.000' },
+    { id: '', type: 'question', color: '#1062eb', text: 'R$200' },
+    { id: '', color: '#0a3c90', text: 'R$50' },
+    { id: '', color: '#1062eb', text: 'R$100' },
+    { id: '', type: 'allin', color: '#0a3c90', text: 'R$3.000' }
+];
 
-        var spinner;
-        $(window).ready(function() {
-            spinner = new RouletteWheel($('.roulette'), data);
-            spinner.render();
-            spinner.bindEvents();
+var RouletteWheel = function(el, items) {
+    this.$el = $(el);
+    this.items = items || [];
+    this._bis = false;
+    this._angle = 0;
+    this._index = 0;
+    this.options = { angleOffset: -90 };
+}
+
+_.extend(RouletteWheel.prototype, Backbone.Events);
+
+RouletteWheel.prototype.render = function() {
+    var $spinner = $(this.$el.find('.spinner'));
+    var D = this.$el.width();
+    var R = D * 0.5;
+    var count = this.items.length;
+    var delta = 360 / count;
+
+    for (var i = 0; i < count; i++) {
+        var item = this.items[i];
+        var color = item.color;
+        var text = item.text;
+
+        var html = [];
+        html.push('<div class="item" data-index="' + i + '" data-type="' + item.type + '">');
+        html.push('<span class="label"><span class="text">' + text + '</span></span>');
+        html.push('</div>');
+
+        var $item = $(html.join(''));
+
+        var borderTopWidth = D + D * 0.0025;
+        var deltaInRadians = delta * Math.PI / 180;
+        var borderRightWidth = D / (1 / Math.tan(deltaInRadians));
+
+        var r = delta * (count - i) + this.options.angleOffset - delta * 0.5;
+
+        $item.css({
+            borderTopWidth: borderTopWidth,
+            borderRightWidth: borderRightWidth,
+            transform: 'scale(2) rotate(' + r + 'deg)',
+            borderTopColor: color
+        });
+
+        var textHeight = parseInt((2 * Math.PI * R / count) * 0.5);
+
+        $item.find('.label').css({
+            transform: 'translateY(' + (D * -0.25) + 'px) translateX(' + (textHeight * 1.03) + 'px) rotateZ(' + (90 + delta * 0.5) + 'deg)',
+            height: textHeight + 'px',
+            lineHeight: textHeight + 'px',
+            textIndent: (R * 0.1) + 'px'
+        });
+
+        $spinner.append($item);
+    }
+
+    $spinner.css({ fontSize: parseInt(R * 0.06) + 'px' });
+}
+
+RouletteWheel.prototype.bindEvents = function() {
+    this.$el.find('.button').on('click', $.proxy(this.spin, this));
+}
+
+var spinner;
+$(window).ready(function() {
+    spinner = new RouletteWheel($('.roulette'), data);
+    spinner.render();
+    spinner.bindEvents();
+    
+    spinner.on('spin:start', function(r) { console.log('spin start!') });
+    spinner.on('spin:end', function(r) {
+        console.log('spin end! -->' + r._index);
+        $('.roulette').fadeOut(1000, function() {
+            $('#texto-personalizado').removeClass('hidden');
+            $('.text-overlay').fadeOut(1000);
             
-            spinner.on('spin:start', function(r) { console.log('spin start!') });
-            spinner.on('spin:end', function(r) {
-                console.log('spin end! -->' + r._index);
-                $('.roulette').fadeOut(1000, function() {
-                    $('#texto-personalizado').removeClass('hidden');
-                    $('.text-overlay').fadeOut(1000);
-                    
-                    var confettiScript = document.createElement('script');
-                    confettiScript.src = "https://www.napoleon.com.br/codigos/confetti.min.js";
-                    document.body.appendChild(confettiScript);
-                    
-                    confettiScript.onload = function() {
-                        confetti.start();
-                        setTimeout(function() {
-                            confetti.stop();
-                        }, 3000);
-                    };
-                });
-            });
+            var confettiScript = document.createElement('script');
+            confettiScript.src = "https://www.napoleon.com.br/codigos/confetti.min.js";
+            document.body.appendChild(confettiScript);
+            
+            confettiScript.onload = function() {
+                confetti.start();
+                setTimeout(function() {
+                    confetti.stop();
+                }, 3000);
+            };
         });
+    });
+});
 
-        RouletteWheel.prototype.spin = function() {
-            var index = this.items.findIndex(item => item.type === 'quiz');
-            var count = this.items.length;
-            var delta = 360 / count;
-            var a = index * delta + ((this._bis) ? 1440 : -1440);
+RouletteWheel.prototype.spin = function() {
+    var index = this.items.findIndex(item => item.type === 'quiz');
+    var count = this.items.length;
+    var delta = 360 / count;
+    var a = index * delta + ((this._bis) ? 1440 : -1440);
 
-            this._bis = !this._bis;
-            this._angle = a;
-            this._index = index;
+    this._bis = !this._bis;
+    this._angle = a;
+    this._index = index;
 
-            var $spinner = $(this.$el.find('.spinner'));
+    var $spinner = $(this.$el.find('.spinner'));
 
-            var _onAnimationBegin = function() {
-                this.$el.addClass('busy');
-                this.trigger('spin:start', this);
-            }
+    var _onAnimationBegin = function() {
+        this.$el.addClass('busy');
+        this.trigger('spin:start', this);
+    }
 
-            var _onAnimationComplete = function() {
-                this.$el.removeClass('busy');
-                this.trigger('spin:end', this);
-            }
+    var _onAnimationComplete = function() {
+        this.$el.removeClass('busy');
+        this.trigger('spin:end', this);
+    }
 
-            $spinner.velocity('stop').velocity({
-                rotateZ: a + 'deg'
-            }, {
-                easing: 'easeOutQuint',
-                duration: 10700,
-                begin: $.proxy(_onAnimationBegin, this),
-                complete: $.proxy(_onAnimationComplete, this)
-            });
-        }
-    </script>
-</body>
+    $spinner.velocity('stop').velocity({
+        rotateZ: a + 'deg'
+    }, {
+        easing: 'easeOutQuint',
+        duration: 10700,
+        begin: $.proxy(_onAnimationBegin, this),
+        complete: $.proxy(_onAnimationComplete, this)
+    });
+}
+
+</script>
 </html>
