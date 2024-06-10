@@ -106,23 +106,15 @@
   const startButton = document.getElementById("start-button");
   startButton.addEventListener("click", function() {
     const container = document.getElementById("container");
-    const rouletteContainer = document.getElementById("roulette-container");
-    const content = document.getElementById("content");
+    container.classList.add("fade-out");
 
-    // Animação de fade-out do conteúdo anterior
-    $(content).velocity("fadeOut", {
-        duration: 500, // Duração da animação em milissegundos
-        complete: function() {
-            container.classList.add("hidden"); // Oculta completamente o conteúdo anterior após a animação
-        }
-    });
-
-    // Exibe a roleta após um pequeno atraso para permitir que a animação de fade-out ocorra
+    // Adicionando um pequeno atraso para a transição ter tempo de ocorrer
     setTimeout(function() {
-        rouletteContainer.classList.remove("hidden");
-    }, 500); // Aguarda 0,5 segundos (o mesmo tempo que a transição) antes de mostrar a roleta
+      container.classList.add("hidden");
+    }, 500); // Aguarda 0,5 segundos (o mesmo tempo que a transição) antes de ocultar completamente
+    document.getElementById("roulette-container").classList.remove("hidden");
+  });
 });
-
 
   </script>
   
